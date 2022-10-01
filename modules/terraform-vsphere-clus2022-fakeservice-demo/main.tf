@@ -80,7 +80,7 @@ resource "aci_application_epg" "hashiconf2022" {
   application_profile_dn  = aci_application_profile.hashiconf2022[0].id
   name = "${var.demo_vms.name}"
   relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
-  relation_fv_rs_cons = [data.aci_contract.inet.id]
+#  relation_fv_rs_cons = [data.aci_contract.inet.id]
 }
 
 resource "aci_epg_to_domain" "hashiconf2022" {
