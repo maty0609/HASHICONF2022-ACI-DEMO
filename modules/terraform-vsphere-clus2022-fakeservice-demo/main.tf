@@ -57,7 +57,7 @@ resource "aci_application_profile" "hashiconf2022" {
 }
 
 data "aci_bridge_domain" "hashiconf2022" {
-  tenant_dn  = data.aci_tenant.this.id
+  tenant_dn  = data.aci_tenant.showcase_dc.id
   name = "uk-dc-showcase-production-bd"
 }
 
