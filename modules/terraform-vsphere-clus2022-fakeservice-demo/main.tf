@@ -49,6 +49,10 @@ data "aci_tenant" "showcase_dc" {
   name = var.tenant_name
 }
 
+data "aci_tenant" "common" {
+  name = "common"
+}
+
 resource "aci_application_profile" "hashiconf2022" {
   count = var.demo_vms.quantity == 0 ? 0 : 1
   tenant_dn = data.aci_tenant.showcase_dc.id
