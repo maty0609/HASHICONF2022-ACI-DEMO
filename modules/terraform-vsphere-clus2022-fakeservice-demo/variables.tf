@@ -19,7 +19,7 @@ variable "vsphere_cluster" {
 variable "template_network" {
   description = "variable for the network name that the VMs will be created on"
   type        = string
-  default     = "showcase_dc|uk-vmware-production-ap|dc-showcase-apps"
+  default     = "showcase_dc|hashiconf2022|"
 }
 
 variable "template_name" {
