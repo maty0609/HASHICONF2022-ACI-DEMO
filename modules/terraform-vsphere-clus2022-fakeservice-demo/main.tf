@@ -17,7 +17,7 @@ data "vsphere_resource_pool" "compute_cluster" {
 
 # data block to fetch target deployment network details
 data "vsphere_network" "deployment_network" {
-  name          = var.template_network
+  name          = "${var.template_network}|${var.demo_vms.name}"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -49,6 +49,10 @@ data "aci_tenant" "showcase_dc" {
   name = var.tenant_name
 }
 
+data "aci_tenant" "common" {
+  name = "common"
+}
+
 resource "aci_application_profile" "hashiconf2022" {
   count = var.demo_vms.quantity == 0 ? 0 : 1
   tenant_dn = data.aci_tenant.showcase_dc.id
@@ -66,11 +70,17 @@ data "aci_vmm_domain" "vds" {
 	name                = "vds_1"
 }
 
+data "aci_contract" "inet" {
+  tenant_dn  =  data.aci_tenant.common.id
+  name       = "inet"
+}
+
 resource "aci_application_epg" "hashiconf2022" {
   count = var.demo_vms.quantity == 0 ? 0 : 1
   application_profile_dn  = aci_application_profile.hashiconf2022[0].id
   name = "${var.demo_vms.name}"
   relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
+  relation_fv_rs_cons = [data.aci_contract.inet.id]
 }
 
 resource "aci_epg_to_domain" "hashiconf2022" {
