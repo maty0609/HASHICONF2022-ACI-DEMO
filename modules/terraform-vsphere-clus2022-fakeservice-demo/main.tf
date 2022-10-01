@@ -56,22 +56,17 @@ resource "aci_application_profile" "hashiconf2022" {
   description = "HashiConf 2022 AP"
 }
 
-# data "aci_vrf" "this" {
-#   name = var.vrf_name
-#   tenant_dn = data.aci_tenant.this.id
-# }
+data "aci_bridge_domain" "hashiconf2022" {
+  tenant_dn  = data.aci_tenant.this.id
+  name = "uk-dc-showcase-production-bd"
+}
 
-# data "aci_bridge_domain" "this" {
-#   tenant_dn  = data.aci_tenant.this.id
-#   name = "uk-dc-showcase-production-bd"
-# }
-
-# resource "aci_application_epg" "dc-showcase-apps" {
-#   count            = var.demo_vms.quantity
-#   application_profile_dn  = data.aci_application_profile.this.id
-#   name = "${var.demo_vms.name}"
-#   relation_fv_rs_bd = data.aci_bridge_domain.this.id
-# }
+resource "aci_application_epg" "hashiconf2022" {
+  count = var.demo_vms.quantity == 0 ? 0 : 1
+  application_profile_dn  = data.aci_application_profile.hashiconf2022.id
+  name = "${var.demo_vms.name}"
+  relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
+}
 
 resource "vsphere_virtual_machine" "demo-vms" {
   count            = var.demo_vms.quantity
