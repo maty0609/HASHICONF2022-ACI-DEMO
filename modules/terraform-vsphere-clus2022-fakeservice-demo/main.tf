@@ -63,7 +63,7 @@ data "aci_bridge_domain" "hashiconf2022" {
 
 resource "aci_application_epg" "hashiconf2022" {
   count = var.demo_vms.quantity == 0 ? 0 : 1
-  application_profile_dn  = data.aci_application_profile.hashiconf2022.id
+  application_profile_dn  = aci_application_profile.hashiconf2022.id
   name = "${var.demo_vms.name}"
   relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
 }
