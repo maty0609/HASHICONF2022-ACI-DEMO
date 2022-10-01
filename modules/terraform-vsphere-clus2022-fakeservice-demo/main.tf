@@ -50,6 +50,7 @@ data "aci_tenant" "showcase_dc" {
 }
 
 resource "aci_application_profile" "hashiconf2022" {
+  count = var.demo_vms.quantity == 0 ? 0 : 1
   tenant_dn = data.aci_tenant.showcase_dc.id
   name = "hashiconf2022"
   description = "HashiConf 2022 AP"
