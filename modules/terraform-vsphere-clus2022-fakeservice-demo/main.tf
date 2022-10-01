@@ -75,7 +75,7 @@ resource "aci_application_epg" "hashiconf2022" {
 
 resource "aci_epg_to_domain" "hashiconf2022" {
   count = var.demo_vms.quantity == 0 ? 0 : 1
-  application_epg_dn    = aci_application_epg.hashiconf2022.id
+  application_epg_dn    = aci_application_epg.hashiconf2022[0].id
   tdn                   = data.aci_vmm_domain.vds.id
 }
 
