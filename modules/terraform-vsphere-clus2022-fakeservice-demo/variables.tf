@@ -34,6 +34,13 @@ variable "folder_path" {
   default     = "showcase/dc/clus2022"
 }
 
+variable "tenant_name" {
+  description = "Multi-Cloud Showcase"
+  type        = string
+  default     = "showcase_dc"
+}
+
+
 variable "demo_vms" {
   type = object({
     quantity = number
