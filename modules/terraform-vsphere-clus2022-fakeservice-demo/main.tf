@@ -17,7 +17,7 @@ data "vsphere_resource_pool" "compute_cluster" {
 
 # data block to fetch target deployment network details
 data "vsphere_network" "deployment_network" {
-  name          = var.template_network+"|${var.demo_vms.name}"
+  name          = "${var.template_network}|${var.demo_vms.name}"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
