@@ -61,11 +61,21 @@ data "aci_bridge_domain" "hashiconf2022" {
   name = "uk-dc-showcase-production-bd"
 }
 
+data "aci_vmm_domain" "vds" {
+	provider_profile_dn = "uni/vmmp-VMware"
+	name                = "vds_1"
+}
+
 resource "aci_application_epg" "hashiconf2022" {
   count = var.demo_vms.quantity == 0 ? 0 : 1
   application_profile_dn  = aci_application_profile.hashiconf2022[0].id
   name = "${var.demo_vms.name}"
   relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
+}
+
+resource "aci_epg_to_domain" "hashiconf2022" {
+  application_epg_dn    = aci_application_epg.hashiconf2022.id
+  tdn                   = data.aci_vmm_domain.vds.id
 }
 
 resource "vsphere_virtual_machine" "demo-vms" {
