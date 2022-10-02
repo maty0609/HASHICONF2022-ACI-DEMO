@@ -45,49 +45,49 @@ data "cloudinit_config" "config" {
   }
 }
 
-data "aci_tenant" "showcase_dc" {
-  name = var.tenant_name
-}
+# data "aci_tenant" "showcase_dc" {
+#   name = var.tenant_name
+# }
 
-data "aci_tenant" "common" {
-  name = "common"
-}
+# data "aci_tenant" "common" {
+#   name = "common"
+# }
 
-resource "aci_application_profile" "hashiconf2022" {
-  count = var.demo_vms.quantity == 0 ? 0 : 1
-  tenant_dn = data.aci_tenant.showcase_dc.id
-  name = "hashiconf2022"
-  description = "HashiConf 2022 AP"
-}
+# resource "aci_application_profile" "hashiconf2022" {
+#   count = var.demo_vms.quantity == 0 ? 0 : 1
+#   tenant_dn = data.aci_tenant.showcase_dc.id
+#   name = "hashiconf2022"
+#   description = "HashiConf 2022 AP"
+# }
 
-data "aci_bridge_domain" "hashiconf2022" {
-  tenant_dn  = data.aci_tenant.showcase_dc.id
-  name = "uk-dc-showcase-production-bd"
-}
+# data "aci_bridge_domain" "hashiconf2022" {
+#   tenant_dn  = data.aci_tenant.showcase_dc.id
+#   name = "uk-dc-showcase-production-bd"
+# }
 
-data "aci_vmm_domain" "vds" {
-	provider_profile_dn = "uni/vmmp-VMware"
-	name                = "vds_1"
-}
+# data "aci_vmm_domain" "vds" {
+# 	provider_profile_dn = "uni/vmmp-VMware"
+# 	name                = "vds_1"
+# }
 
-data "aci_contract" "inet" {
-  tenant_dn  =  data.aci_tenant.common.id
-  name       = "inet"
-}
+# data "aci_contract" "inet" {
+#   tenant_dn  =  data.aci_tenant.common.id
+#   name       = "inet"
+# }
 
-resource "aci_application_epg" "hashiconf2022" {
-  count = var.demo_vms.quantity == 0 ? 0 : 1
-  application_profile_dn  = aci_application_profile.hashiconf2022[0].id
-  name = "${var.demo_vms.name}"
-  relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
-#  relation_fv_rs_cons = [data.aci_contract.inet.id]
-}
+# resource "aci_application_epg" "hashiconf2022" {
+#   count = var.demo_vms.quantity == 0 ? 0 : 1
+#   application_profile_dn  = aci_application_profile.hashiconf2022[0].id
+#   name = "${var.demo_vms.name}"
+#   relation_fv_rs_bd = data.aci_bridge_domain.hashiconf2022.id
+# #  relation_fv_rs_cons = [data.aci_contract.inet.id]
+# }
 
-resource "aci_epg_to_domain" "hashiconf2022" {
-  count = var.demo_vms.quantity == 0 ? 0 : 1
-  application_epg_dn    = aci_application_epg.hashiconf2022[0].id
-  tdn                   = data.aci_vmm_domain.vds.id
-}
+# resource "aci_epg_to_domain" "hashiconf2022" {
+#   count = var.demo_vms.quantity == 0 ? 0 : 1
+#   application_epg_dn    = aci_application_epg.hashiconf2022[0].id
+#   tdn                   = data.aci_vmm_domain.vds.id
+# }
 
 resource "vsphere_virtual_machine" "demo-vms" {
   count            = var.demo_vms.quantity
