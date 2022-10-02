@@ -16,10 +16,10 @@ data "vsphere_resource_pool" "compute_cluster" {
 }
 
 # data block to fetch target deployment network details
-data "vsphere_network" "deployment_network" {
-  name          = "${var.template_network}|${var.demo_vms.name}"
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
+# data "vsphere_network" "deployment_network" {
+#   name          = "${var.template_network}|${var.demo_vms.name}"
+#   datacenter_id = data.vsphere_datacenter.dc.id
+# }
 
 # data block to fetch the deployment vm template
 data "vsphere_virtual_machine" "deployment_template" {
@@ -102,7 +102,7 @@ resource "vsphere_virtual_machine" "demo-vms" {
   scsi_type        = data.vsphere_virtual_machine.deployment_template.scsi_type
 
   network_interface {
-    network_id   = data.vsphere_network.deployment_network.id
+    network_id   = "${var.template_network}|${var.demo_vms.name}"
     adapter_type = data.vsphere_virtual_machine.deployment_template.network_interface_types[0]
   }
 
