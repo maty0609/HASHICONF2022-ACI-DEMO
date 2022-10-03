@@ -31,7 +31,7 @@ variable "template_name" {
 variable "folder_path" {
   description = "variable for the folder path that will be used when deploying workloads"
   type        = string
-  default     = "showcase/dc/clus2022"
+  default     = "showcase/dc/hashiconf2022"
 }
 
 variable "tenant_name" {
@@ -45,10 +45,10 @@ variable "demo_vms" {
   type = object({
     quantity = number
     name     = string
-    # cpus             = optional(number) # Removed for CLUS demo simplicity
-    # memory           = optional(number) # Removed for CLUS demo simplicity
-    # disk             = optional(number) # Removed for CLUS demo simplicity
-    # thin             = optional(bool) # Removed for CLUS demo simplicity
+    # cpus             = optional(number) # Removed for demo simplicity
+    # memory           = optional(number) # Removed for demo simplicity
+    # disk             = optional(number) # Removed for demo simplicity
+    # thin             = optional(bool) # Removed for demo simplicity
     service_message  = string
     service_port     = number
     service_tag      = string
